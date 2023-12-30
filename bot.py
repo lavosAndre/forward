@@ -15,7 +15,7 @@ def move_messages(client):
         client.forward_messages(DESTINATION_CHANNEL_ID, message)
 
 def main():
-    client = TelegramClient(SESSION_NAME, API_ID, API_HASH, session='my_session.tdlib')
+    client = TelegramClient(SESSION_NAME, API_ID, API_HASH)
 
     client.connect()
     client.sign_in(bot_token='6876062883:AAFBonyQGtK_DmnQyEcnE1g40tLTF-Tn3K4')
