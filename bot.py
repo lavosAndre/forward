@@ -26,7 +26,7 @@ def move_messages(context: CallbackContext, last_message_id=None) -> None:
         context.job_queue.run_once(lambda c: move_messages(c, last_message_id), when=2)  # Wait 2 seconds before the next batch
 
 def main() -> None:
-    updater = Updater(TOKEN, use_context=True)
+    updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
 
     # Add command handlers
