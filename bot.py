@@ -7,7 +7,7 @@ SOURCE_CHANNEL_ID = -1001666241790
 DESTINATION_CHANNEL_ID = -1002117307978
 
 def move_messages(client):
-    source_channel = InputPeerChannel(SOURCE_CHANNEL_ID)
+    source_channel = InputPeerChannel(channel_id=SOURCE_CHANNEL_ID, access_hash=0)  # Replace 0 with the actual access hash if available
     messages = client.iter_messages(source_channel, limit=100)
 
     for message in messages:
