@@ -1,5 +1,5 @@
 from telethon.sync import TelegramClient
-from telethon.tl.functions.messages import GetHistory, ForwardMessages
+from telethon.tl.functions.messages import GetMessages
 
 # Replace 'API_ID', 'API_HASH', 'SOURCE_CHANNEL_ID', and 'DESTINATION_CHANNEL_ID' with your actual values
 API_ID = '25618507'
@@ -9,11 +9,11 @@ DESTINATION_CHANNEL_ID = -1002117307978
 
 def move_messages(client):
     # Fetch messages in batches of 100
-    messages = client.invoke(GetHistory(SOURCE_CHANNEL_ID, 0, 0, 100, 0, 0, 0)).messages
+    messages = client.invoke(GetMessages(peer=SOURCE_CHANNEL_ID, limit=100)).messages
 
     # Forward each message to the destination channel
     for message in messages:
-        client.invoke(ForwardMessages(DESTINATION_CHANNEL_ID, [message.id]))
+        client.forward_messages(DESTINATION_CHANNEL_ID, message)
 
     # If there are more messages, schedule the next batch
     if messages and len(messages) == 100:
