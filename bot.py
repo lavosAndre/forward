@@ -1,27 +1,21 @@
-from telethon.sync import TelegramClient
-from telethon.tl.types import InputPeerChannel
+from telethon.telegram_bare_client import TelegramBareClient
 
 API_ID = '25618507'
 API_HASH = 'b8b91983b578360ec05a7e88e17b06ea'
 SOURCE_CHANNEL_ID = -1001666241790
 DESTINATION_CHANNEL_ID = -1002117307978
 
-def move_messages(client):
-    source_channel = InputPeerChannel(channel_id=SOURCE_CHANNEL_ID, access_hash=0)  # Replace 0 with the actual access hash if available
-    messages = client.iter_messages(source_channel, limit=100)
+async def move_messages(client):
+    async for message in client.iter_messages(SOURCE_CHANNEL_ID, limit=100):
+        await client.send_message(DESTINATION_CHANNEL_ID, message)
 
-    for message in messages:
-        client.forward_messages(DESTINATION_CHANNEL_ID, message)
+async def main():
+    async with TelegramBareClient('anon', API_ID, API_HASH) as client:
+        await client.connect()
+        await client.sign_in(bot_token='6876062883:AAFBonyQGtK_DmnQyEcnE1g40tLTF-Tn3K4')
 
-def main():
-    client = TelegramClient(None, API_ID, API_HASH)  # No session name
-
-    client.connect()
-    client.sign_in(bot_token='6876062883:AAFBonyQGtK_DmnQyEcnE1g40tLTF-Tn3K4')
-
-    move_messages(client)
-
-    client.disconnect()
+        await move_messages(client)
 
 if __name__ == '__main__':
-    main()
+    import asyncio
+    asyncio.run(main())
